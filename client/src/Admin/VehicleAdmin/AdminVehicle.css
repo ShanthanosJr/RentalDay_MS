@@ -1,0 +1,794 @@
+/*@import '../../Dagestan/Dagestan.css';*/
+
+.dagestan-vehicle-admin {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  padding: 0;
+  margin: 0;
+}
+
+.dagestan-section-inner {
+  padding: 0 0.5rem; /* Reduced padding to fix excessive left/right spacing */
+}
+
+@media (min-width: 768px) {
+  .dagestan-section-inner {
+    padding: 0 1rem; /* Reduced padding to fix excessive left/right spacing */
+  }
+}
+
+@media (min-width: 1024px) {
+  .dagestan-section-inner {
+    padding: 0 1.5rem; /* Reduced padding to fix excessive left/right spacing */
+  }
+}
+
+/* Top section */
+.dagestan-vehicle-top .dagestan-section-inner {
+  max-width: 80rem;
+  padding-bottom: 0.5rem; /* Reduced space after top section */
+}
+
+/* Override section header alignment and spacing */
+.dagestan-section-header {
+  text-align: left !important; /* Fix text alignment */
+  margin-bottom: 0.5rem !important; /* Reduced space between title and content */
+  gap: 0.25rem !important; /* Reduced gap between elements in header */
+}
+
+@media (min-width: 768px) {
+  .dagestan-section-header {
+    flex-direction: column !important; /* Override to fix alignment */
+    align-items: flex-start !important; /* Align to left */
+    text-align: left !important;
+    margin-bottom: 0.5rem !important; /* Reduced space between title and content */
+    gap: 0.25rem !important; /* Reduced gap between elements in header */
+  }
+}
+
+.admin-vehicle-intro {
+  max-width: 44rem;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.5; /* Reduced line height */
+  text-align: left; /* Fix text alignment */
+  margin-bottom: 0.5rem; /* Reduced space after intro */
+}
+
+/* Tabs */
+.admin-vehicle-tabs {
+  margin-top: 2rem;
+  display: inline-flex;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-vehicle-tab {
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.admin-vehicle-tab.active {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  box-shadow: var(--shadow-card);
+}
+
+/* Stats + charts grid */
+.admin-vehicle-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  grid-template-rows: auto auto;
+  gap: 0.75rem; /* Reduced gap between grid items */
+}
+
+.admin-vehicle-stats {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-vehicle-card {
+  background: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-vehicle-card-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--muted-foreground));
+}
+
+.admin-vehicle-card-value {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: hsl(var(--foreground));
+}
+
+.admin-vehicle-card-hint {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Charts */
+.admin-vehicle-chart {
+  background: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.5rem 1.75rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-vehicle-chart-bar {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.admin-vehicle-chart-pie {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.admin-vehicle-chart-trend {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+.chart-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.chart-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  margin: 0;
+  color: hsl(var(--foreground));
+}
+
+.chart-empty {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Bar chart */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.75rem;
+  height: 180px;
+}
+
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-inner {
+  width: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    to top,
+    hsl(var(--foreground)),
+    hsl(var(--primary))
+  );
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bar-value {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: hsl(var(--foreground));
+}
+
+.bar-label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Pie chart */
+.pie-chart-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pie-chart {
+  width: 140px;
+  height: 140px;
+}
+
+.pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: hsl(var(--foreground));
+}
+
+.pie-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: hsl(var(--foreground));
+}
+
+.pie-label {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Trend chart */
+.trend-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trend-svg {
+  width: 100%;
+  height: 160px;
+}
+
+.trend-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Filters shared */
+.dagestan-vehicle-filters .dagestan-section-inner,
+.admin-vehicle-cards .dagestan-section-inner,
+.admin-vehicle-grid-view .dagestan-section-inner {
+  max-width: 80rem;
+  padding-top: 0.5rem; /* Reduced top padding */
+}
+
+/* Ensure consistent text alignment */
+.dagestan-section-label {
+  text-align: left;
+}
+
+.dagestan-section-title {
+  text-align: left;
+}
+
+.dagestan-section-subtitle {
+  text-align: left;
+}
+
+/* Reduce spacing between sections */
+.dagestan-section {
+  margin-bottom: 1.5rem; /* Reduced space between sections */
+}
+
+.filters-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.cards-filters {
+  grid-template-columns: 2fr 1fr;
+}
+
+.grid-filters {
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+.filters-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.filters-input-wrapper {
+  position: relative;
+}
+
+.filters-input-wrapper i {
+  position: absolute;
+  inset-inline-start: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+.filters-input-wrapper input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+}
+
+.filters-input-wrapper input:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsl(var(--primary) / 0.1);
+}
+
+.filters-select select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  font-size: 0.875rem;
+  color: hsl(var(--foreground));
+}
+
+.filters-add {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Carousel customisations */
+.admin-vehicle-cards .dagestan-carousel-container {
+  height: auto;
+  min-height: 500px; /* Ensure enough height to show cards properly */
+  padding: 0 0.5rem; /* Reduced padding to fix spacing */
+  overflow: visible; /* Fix for cards being cut in half */
+}
+
+.admin-vehicle-carousel-cards {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  overflow: visible; /* Fix for cards being cut in half */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.admin-vehicle-carousel-card {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  /* Added fixes for card view being cut in half */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.admin-vehicle-carousel-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.admin-vehicle-carousel-info {
+  background: hsl(var(--card));
+  padding: 1.5rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.admin-vehicle-carousel-info h4 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.admin-vehicle-carousel-info p {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.admin-vehicle-carousel-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.admin-vehicle-carousel-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-vehicle-carousel-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.admin-vehicle-carousel-price strong {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: hsl(var(--foreground));
+}
+
+.admin-vehicle-carousel-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Shared delete button theme */
+.admin-vehicle-delete {
+  border-color: hsl(var(--destructive));
+  color: hsl(var(--destructive));
+}
+
+.admin-vehicle-delete:hover {
+  background: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+}
+
+/* Grid view table */
+.admin-vehicle-table-wrapper {
+  margin-top: 2rem;
+}
+
+.admin-vehicle-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: hsl(var(--card));
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-vehicle-table thead {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.admin-vehicle-table th,
+.admin-vehicle-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.admin-vehicle-table th {
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-vehicle-table tbody tr:hover {
+  background: hsl(var(--muted) / 0.4);
+}
+
+.admin-vehicle-table-vehicle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.admin-vehicle-table-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 0.35rem;
+}
+
+.admin-vehicle-table-name {
+  font-weight: 500;
+}
+
+.admin-vehicle-table-id {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.admin-vehicle-table-years {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+}
+
+.admin-vehicle-table-years small {
+  color: hsl(var(--muted-foreground));
+}
+
+.admin-vehicle-table-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.admin-vehicle-table-specs span {
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  background: hsl(var(--muted) / 0.8);
+  font-size: 0.75rem;
+  color: hsl(var(--foreground));
+}
+
+.admin-vehicle-table-price {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: hsl(var(--foreground));
+}
+
+.admin-vehicle-table-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+/* Modals (same as previous answer) */
+.dagestan-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: hsla(var(--foreground), 0.65);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.dagestan-modal-container {
+  max-width: 64rem;
+  width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dagestan-modal-content {
+  background: hsl(var(--background));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-elevated);
+  overflow: hidden;
+}
+
+.dagestan-modal-header {
+  padding: 2rem 2.5rem;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dagestan-modal-title-wrapper {
+  flex: 1;
+}
+
+.dagestan-modal-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.dagestan-modal-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.dagestan-modal-close {
+  background: transparent;
+  border-radius: 9999px;
+  border: 1px solid hsla(var(--background), 0.5);
+  width: 2.5rem;
+  height: 2.5rem;
+  color: hsl(var(--background));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dagestan-modal-close:hover {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.dagestan-modal-body {
+  padding: 2rem 2.5rem;
+}
+
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr;
+  gap: 1.5rem;
+}
+
+.modal-form-section {
+  background: hsl(var(--card));
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 1.25rem 1.5rem;
+}
+
+.modal-form-section-wide {
+  grid-column: 1 / 3;
+}
+
+.modal-form-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+.modal-form-fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.modal-form-fields textarea {
+  min-height: 80px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--muted-foreground));
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  border-radius: var(--radius);
+  border: 1px solid hsl(var(--border));
+  padding: 0.75rem 0.9rem;
+  font-size: 0.875rem;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.modal-image-preview {
+  margin-top: 0.75rem;
+  max-width: 160px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.dagestan-modal-footer {
+  padding: 1.75rem 2.5rem 2rem;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.dagestan-btn-secondary,
+.dagestan-btn-primary {
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dagestan-btn-secondary {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.dagestan-btn-secondary:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+.dagestan-btn-primary {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.dagestan-btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .admin-vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-vehicle-chart-bar,
+  .admin-vehicle-chart-pie,
+  .admin-vehicle-chart-trend {
+    grid-column: 1 / 2;
+  }
+
+  .filters-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cards-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-row,
+  .cards-filters,
+  .grid-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-form-section-wide {
+    grid-column: 1 / 2;
+  }
+
+  .admin-vehicle-table-vehicle {
+    align-items: flex-start;
+  }
+
+  .admin-vehicle-table {
+    font-size: 0.8rem;
+  }
+}

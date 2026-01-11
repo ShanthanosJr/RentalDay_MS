@@ -1,0 +1,635 @@
+/* --- PREMIUM TYPOGRAPHY --- */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+:root {
+  /* THEME PALETTE */
+  --tech-green: #00c853;       /* Vibrant Green */
+  --tech-green-dim: #b9f6ca;   /* Soft Green for backgrounds */
+  --dark-slate: #1e272e;       /* Main Text */
+  --mid-grey: #808e9b;         /* Secondary Text */
+  --pure-white: #ffffff;
+  --off-white: #f8fbfb;
+  --dark-grey: #495057;
+  
+  /* UX VARIABLES */
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --tech-shadow: 0 10px 30px -10px rgba(0, 200, 83, 0.25);
+  --border-radius: 4px; /* Sharp corners fit the PDF aesthetic better */
+}
+/* --- GLOBAL APP LAYOUT FIX --- */
+.app-shell {
+  width: 100%;
+  max-width: 100%;
+  padding-left: clamp(16px, 4vw, 64px);
+  padding-right: clamp(16px, 4vw, 64px);
+}
+.app-shell--wide {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* --- GLOBAL RESET --- */
+body {
+  background-color: var(--off-white);
+  color: var(--dark-slate);
+  font-family: 'Rajdhani', sans-serif; /* Tech-focused body font */
+  font-size: 18px;
+  background-image: 
+    radial-gradient(var(--tech-green-dim) 1px, transparent 1px),
+    radial-gradient(var(--tech-green-dim) 1px, transparent 1px);
+  background-size: 40px 40px; /* Subtle grid pattern */
+  background-position: 0 0, 20px 20px;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand, .btn {
+  font-family: 'Orbitron', sans-serif; /* Futuristic header font */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- THE "CORNER BRACKET" TECH CARD (The PDF Look) --- */
+.tech-card {
+  position: relative;
+  background: var(--pure-white);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+/* This creates the "L" shapes from the PDF [cite: 79] */
+.tech-card::before,
+.tech-card::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  transition: all 0.4s ease;
+  border: 2px solid transparent;
+}
+
+/* Top Left & Bottom Right Brackets */
+.tech-card::before {
+  top: 0;
+  left: 0;
+  border-top-color: var(--tech-green);
+  border-left-color: var(--tech-green);
+}
+
+.tech-card::after {
+  bottom: 0;
+  right: 0;
+  border-bottom-color: var(--tech-green);
+  border-right-color: var(--tech-green);
+}
+
+.tech-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: var(--tech-shadow);
+  border-color: var(--tech-green);
+}
+
+/* Expands the brackets on hover */
+.tech-card:hover::before,
+.tech-card:hover::after {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* --- PREMIUM NAVBAR --- */
+.navbar {
+  background: var(--pure-white) !important;
+  border-bottom: 2px solid var(--tech-green);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  color: var(--dark-slate) !important;
+  font-weight: 900;
+  font-size: 1.8rem;
+}
+
+.navbar-brand span {
+  color: var(--tech-green);
+}
+
+/* Normal Link State */
+.nav-link {
+  color: var(--dark-slate) !important;
+  font-weight: 600;
+  margin: 0 10px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* The hover line animation */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--tech-green);
+  transition: width 0.3s;
+}
+
+/* On Hover: Expand line */
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* On Active (Current Page): Keep line expanded and change text color */
+.nav-link.active {
+  color: var(--tech-green) !important;
+}
+
+.nav-link.active::after {
+  width: 100%; /* Keeps the underline persistent on the active page */
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+  background: var(--dark-slate);
+  color: var(--tech-green);
+  border: 1px solid var(--tech-green);
+  border-radius: 0; /* Sharp edges for tech feel */
+  padding: 10px 30px;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--tech-green);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn-primary:hover {
+  color: var(--pure-white);
+  border-color: var(--tech-green);
+}
+
+.btn-primary:hover::before {
+  left: 0;
+}
+
+/* --- INPUT FIELDS --- */
+.form-control {
+  background-color: var(--off-white);
+  border: 1px solid #e1e1e1;
+  border-radius: 0;
+  padding: 15px;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.form-control:focus {
+  background-color: var(--pure-white);
+  border-color: var(--tech-green);
+  box-shadow: 0 0 0 4px rgba(0, 200, 83, 0.1);
+}
+
+/* --- USER HOME HERO SECTION --- */
+.hero-section {
+  position: relative;
+  height: 85vh; /* Almost full screen */
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-top: -1.5rem; /* Pull up to touch navbar */
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  transform: translate(-50%, -50%);
+  filter: brightness(0.4) contrast(1.1); /* Darken video for text readability */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 3rem;
+  border-radius: 0; /* Sharp tech edges */
+  position: relative;
+}
+
+/* --- INFINITE PHOTO LOOP (MARQUEE) --- */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  background: var(--dark-slate);
+  padding: 40px 0;
+}
+
+.marquee-track {
+  display: inline-block;
+  animation: scroll 20s linear infinite;
+}
+
+.marquee-item {
+  height: 250px;
+  width: 400px;
+  margin: 0 15px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--tech-green);
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.marquee-item:hover {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0, 200, 83, 0.5);
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Moves left forever */
+}
+
+/* --- UNIQUE MEMBERS SECTION --- */
+.member-card {
+  transition: transform 0.3s;
+  border-top: 3px solid transparent;
+}
+
+.member-card:hover {
+  transform: translateY(-10px);
+  border-top: 3px solid var(--tech-green);
+}
+
+.member-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid var(--tech-green);
+  padding: 3px;
+}
+
+/* --- IMPROVED AUTH LAYOUT --- */
+.auth-split-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.auth-form-side, .auth-visual-side {
+  flex: 1; /* Equal width */
+  min-width: 0; /* Prevent overflow */
+  transition: all 0.3s ease;
+}
+
+.auth-form-side {
+  padding: 2rem;
+  justify-content: center;
+  align-items: center;
+  background-size: 30px 30px; /* Slightly larger grid for premium feel */
+}
+
+.auth-visual-side {
+  position: relative;
+}
+
+.auth-img-bg {
+  filter: grayscale(50%) contrast(1.1) hue-rotate(120deg); /* Add green tint */
+  transition: filter 0.3s;
+}
+
+.auth-visual-side:hover .auth-img-bg {
+  filter: grayscale(30%) contrast(1.2) hue-rotate(120deg); /* Hover for magic */
+}
+
+.auth-visual-overlay {
+  background: radial-gradient(circle at center, rgba(0, 200, 83, 0.2) 0%, var(--dark-slate) 100%); /* Green-tinted overlay */
+}
+
+/* Form Enhancements */
+.auth-form-side .card {
+  max-width: 500px; /* Center and limit form width for balance */
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.auth-form-side .form-control {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.auth-form-side .btn-primary {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Password Toggle */
+.password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--mid-grey);
+}
+
+/* Loading Spinner */
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 0.2rem;
+}
+
+/* Mobile: Stack with visual below form */
+@media (max-width: 768px) {
+  .auth-split-container {
+    flex-direction: column;
+  }
+  .auth-form-side {
+    order: 1;
+    padding: 1rem;
+    min-height: auto;
+  }
+  .auth-visual-side {
+    order: 2;
+    display: block !important; /* Show on mobile, but shorter */
+    height: 40vh;
+  }
+  .auth-form-side .card {
+    max-width: 100%;
+  }
+}
+
+/* 2. FOOTER (Dark Tech Theme) */
+.footer-tech {
+  background-color: var(--dark-slate);
+  color: var(--pure-white);
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+  margin-top: auto; /* Pushes footer to bottom */
+  border-top: 3px solid var(--tech-green); /* The "Green Line" accent */
+}
+
+.footer-link {
+  color: var(--mid-grey);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--pure-white);
+  text-decoration: none;
+}
+
+.footer-input {
+  background: transparent;
+  border: 1px solid var(--mid-grey);
+  color: white;
+  border-radius: 0;
+}
+
+.footer-input:focus {
+  background: transparent;
+  border-color: var(--tech-green);
+  color: white;
+  box-shadow: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .auth-split-container {
+    flex-direction: column;
+  }
+  .auth-visual-side {
+    display: none; /* Hide visual on mobile to save space */
+  }
+  .auth-form-side {
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+/* --- ADVANCED FORM GROUPS --- */
+.form-group-tech {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.form-group-tech label {
+  font-weight: 600;
+  color: var(--dark-slate);
+  margin-bottom: 0.5rem;
+  display: block;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.form-group-tech .form-control {
+  border-radius: var(--border-radius);
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.form-group-tech .form-control:focus {
+  box-shadow: 0 0 10px rgba(0, 200, 83, 0.2); /* Green glow */
+}
+
+/* Icon in inputs (for magical touch) */
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mid-grey);
+}
+
+/* --- IMAGE PREVIEW --- */
+.image-preview {
+  position: relative;
+  width: 200px;
+  height: 150px;
+  overflow: hidden;
+  border: 2px dashed var(--tech-green);
+  border-radius: var(--border-radius);
+  margin-top: 1rem;
+  transition: border-color 0.3s;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.image-preview:hover img {
+  transform: scale(1.05); /* Zoom on hover for magic */
+}
+
+.image-preview::after {
+  content: 'Upload Image';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--mid-grey);
+  display: none;
+}
+
+.image-preview.empty::after {
+  display: block;
+}
+
+/* --- TECH TABLE FOR LISTS --- */
+.tech-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.tech-table th {
+  background: var(--tech-green-dim);
+  color: var(--dark-slate);
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 1rem;
+  text-align: left;
+}
+
+.tech-table td {
+  background: var(--pure-white);
+  padding: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background 0.3s;
+}
+
+.tech-table tr:hover td {
+  background: var(--tech-green-dim);
+  box-shadow: var(--tech-shadow);
+}
+
+/* --- ANIMATIONS FOR MAGIC --- */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Enhanced Responsiveness */
+@media (max-width: 768px) {
+  .row > .col-md-6 {
+    margin-bottom: 2rem;
+  }
+  .tech-table {
+    font-size: 0.9rem;
+  }
+}
+
+/* --- ENHANCED ACCORDION FOR TECH THEME --- */
+.accordion-tech .accordion-item {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s;
+}
+
+.accordion-tech .accordion-item:hover {
+  box-shadow: var(--tech-shadow);
+}
+
+.accordion-tech .accordion-header {
+  background: var(--pure-white);
+}
+
+.accordion-tech .accordion-button {
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  color: var(--dark-slate);
+  transition: color 0.3s, background 0.3s;
+}
+
+.accordion-tech .accordion-button:not(.collapsed) {
+  color: var(--tech-green);
+  background: var(--tech-green-dim);
+  box-shadow: none; /* Remove default shadow for clean look */
+}
+
+.accordion-tech .accordion-button:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 200, 83, 0.25); /* Green focus ring */
+}
+
+.accordion-tech .accordion-body {
+  background: var(--off-white);
+  padding: 1.5rem;
+}
+
+/* Flush variant adjustments */
+.accordion-flush .accordion-item {
+  border: none;
+  margin-bottom: 0;
+}
+
+/* --- TABLE STYLING --- */
+.tech-table {
+  font-size: 0.9rem;
+}
+
+.tech-table th {
+  white-space: nowrap;
+}
+
+.tech-table td {
+  vertical-align: middle;
+}
+
+.tech-table td .text-truncate {
+  max-width: 120px;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Compact table for smaller screens */
+@media (max-width: 768px) {
+  .tech-table {
+    font-size: 0.8rem;
+  }
+  .tech-table th,
+  .tech-table td {
+    padding: 0.5rem;
+  }
+  .tech-table td .text-truncate {
+    max-width: 80px;
+  }
+}

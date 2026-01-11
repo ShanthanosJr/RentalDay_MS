@@ -1,0 +1,391 @@
+/* ========================================
+   AUTH PAGES - DAGESTAN THEME
+   ======================================== */
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 222.2 84% 4.9%;
+  --radius: 0.5rem;
+  --font-serif: 'Georgia', serif;
+  --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-elevated: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+}
+
+/* ============ AUTH SPLIT CONTAINER ============ */
+.auth-split-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--font-serif);
+  background: hsl(var(--background));
+}
+
+.auth-visual-side {
+  flex: 1;
+  position: relative;
+  background: hsl(var(--muted));
+  overflow: hidden;
+}
+
+.auth-img-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+}
+
+.auth-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    hsl(var(--foreground) / 0.3),
+    hsl(var(--foreground) / 0.1),
+    hsl(var(--foreground) / 0.4)
+  );
+}
+
+.auth-visual-side .position-relative {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  color: hsl(var(--background));
+}
+
+.auth-visual-side h1,
+.auth-visual-side h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+
+.auth-visual-side .display-4 {
+  font-size: 3.75rem;
+}
+
+.auth-visual-side .display-5 {
+  font-size: 2.5rem;
+}
+
+.auth-visual-side p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.auth-visual-side .border {
+  border-color: hsl(var(--primary) / 0.5) !important;
+  border-radius: var(--radius);
+}
+
+.auth-visual-side .d-flex {
+  gap: 2rem;
+}
+
+.auth-visual-side .text-start {
+  text-align: left;
+}
+
+.auth-visual-side .border-start {
+  border-left: 2px solid hsl(var(--primary) / 0.5) !important;
+}
+
+.auth-visual-side h4 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+
+.auth-visual-side small {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.auth-form-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: hsl(var(--background));
+}
+
+.auth-form-side .card {
+  width: 100%;
+  max-width: 32rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  background: hsl(var(--card));
+}
+
+.auth-form-side .card-body {
+  padding: 2rem;
+}
+
+.auth-form-side h3 {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-weight: 400;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.auth-form-side .text-muted {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+.auth-form-side .alert {
+  border-radius: var(--radius);
+  border: none;
+  background: hsl(var(--destructive) / 0.1);
+  color: hsl(var(--destructive));
+}
+
+.auth-form-side .form-group-tech {
+  margin-bottom: 1.5rem;
+}
+
+.auth-form-side .form-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.5rem;
+}
+
+.auth-form-side .form-control {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-family: var(--font-serif);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background: hsl(var(--background));
+}
+
+.auth-form-side .form-control:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  outline: none;
+}
+
+.auth-form-side .input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  z-index: 5;
+  font-size: 0.875rem;
+}
+
+.auth-form-side .position-relative .form-control {
+  padding-left: 2.5rem;
+}
+
+.auth-form-side .password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: hsl(var(--muted-foreground));
+  z-index: 5;
+}
+
+.auth-form-side .form-check {
+  margin-bottom: 1rem;
+}
+
+.auth-form-side .form-check-input {
+  margin-right: 0.5rem;
+  border-radius: var(--radius);
+}
+
+.auth-form-side .form-check-label {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.auth-form-side .btn-primary {
+  background: hsl(var(--foreground));
+  border: 1px solid hsl(var(--foreground));
+  color: hsl(var(--background));
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.auth-form-side .btn-primary:hover {
+  background: hsl(var(--muted-foreground));
+  border-color: hsl(var(--muted-foreground));
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.auth-form-side .btn-link {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.auth-form-side .btn-link:hover {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+.auth-form-side .border-top {
+  border-color: hsl(var(--border)) !important;
+}
+
+.auth-form-side .text-center {
+  text-align: center;
+}
+
+/* ============ ACCORDION STYLES ============ */
+.auth-form-side .accordion-item {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  background: hsl(var(--card));
+}
+
+.auth-form-side .accordion-header {
+  background: hsl(var(--background));
+  border-radius: var(--radius);
+}
+
+.auth-form-side .accordion-button {
+  font-family: var(--font-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  background: transparent;
+  border: none;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+}
+
+.auth-form-side .accordion-button:not(.collapsed) {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+.auth-form-side .accordion-button:focus {
+  box-shadow: 0 0 0 0.2rem hsl(var(--primary) / 0.25);
+}
+
+.auth-form-side .accordion-body {
+  background: hsl(var(--background));
+  padding: 1.25rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+/* ============ IMAGE PREVIEW ============ */
+.auth-form-side .image-preview {
+  position: relative;
+  width: 8rem;
+  height: 6rem;
+  overflow: hidden;
+  border: 2px dashed hsl(var(--border));
+  border-radius: var(--radius);
+  margin-top: 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+.auth-form-side .image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.auth-form-side .image-preview:hover {
+  border-color: hsl(var(--primary));
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .auth-split-container {
+    flex-direction: column;
+  }
+
+  .auth-visual-side {
+    min-height: 40vh;
+  }
+
+  .auth-form-side {
+    padding: 1rem;
+  }
+
+  .auth-form-side .card-body {
+    padding: 1.5rem;
+  }
+
+  .auth-visual-side .display-4 {
+    font-size: 2.5rem;
+  }
+
+  .auth-visual-side .display-5 {
+    font-size: 2rem;
+  }
+
+  .auth-visual-side p {
+    font-size: 1rem;
+  }
+}
+
+/* ============ FADE IN ANIMATION ============ */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

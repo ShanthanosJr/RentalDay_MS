@@ -1,0 +1,456 @@
+/* Dagestan Theme CSS Variables */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --border: 214.3 31.8% 91.4%;
+  --radius: 0.5rem;
+  --font-serif: Georgia, serif;
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-elevated: 0 10px 30px -10px rgba(0, 0, 0, 0.25);
+}
+
+.dagestan-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: hsla(var(--background), 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeUp 0.3s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dagestan-modal-container {
+  max-width: 56rem;
+  width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.dagestan-modal-content {
+  background: hsl(var(--background));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-elevated);
+  overflow: hidden;
+}
+
+.dagestan-modal-header {
+  padding: 2rem 2.5rem;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.dagestan-modal-title-wrapper {
+  flex: 1;
+}
+
+.dagestan-section-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--background), 0.8);
+  padding: 0.25rem 0.75rem;
+  border: 1px solid hsl(var(--background), 0.3);
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.dagestan-modal-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: hsl(var(--background));
+  margin: 0.5rem 0 0.25rem 0;
+}
+
+.dagestan-modal-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-style: italic;
+  color: hsl(var(--background), 0.9);
+  margin: 0;
+}
+
+.dagestan-modal-close {
+  background: none;
+  border: 1px solid hsl(var(--background), 0.3);
+  color: hsl(var(--background));
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dagestan-modal-close:hover {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.dagestan-modal-body {
+  padding: 3rem 2.5rem;
+  display: grid;
+  gap: 3rem;
+}
+
+.dagestan-vehicle-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.dagestan-vehicle-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  aspect-ratio: 4 / 5;
+  box-shadow: var(--shadow-card);
+}
+
+.dagestan-vehicle-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.dagestan-vehicle-image-wrapper:hover .dagestan-vehicle-image {
+  transform: scale(1.05);
+}
+
+.dagestan-vehicle-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: hsla(var(--background), 0.95);
+  backdrop-filter: blur(8px);
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.dagestan-vehicle-details h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.5rem;
+}
+
+.dagestan-vehicle-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dagestan-spec-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dagestan-spec-item i {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.dagestan-rental-form {
+  background: hsl(var(--card));
+  border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow-soft);
+}
+
+.dagestan-form-section-title {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.dagestan-date-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.dagestan-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dagestan-form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.dagestan-input-wrapper {
+  position: relative;
+}
+
+.dagestan-input-wrapper i.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+  z-index: 1;
+}
+
+.dagestan-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.dagestan-input:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+}
+
+.dagestan-pricing-card {
+  background: hsl(var(--background));
+  border-radius: var(--radius);
+  padding: 2rem;
+  border: 1px solid hsl(var(--border));
+  box-shadow: var(--shadow-card);
+}
+
+.dagestan-pricing-header h4 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: hsl(var(--foreground));
+  margin-bottom: 1.5rem;
+}
+
+.dagestan-pricing-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dagestan-pricing-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+.dagestan-pricing-item:last-child {
+  border-bottom: none;
+}
+
+.dagestan-pricing-item span {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+.dagestan-pricing-item strong {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+  font-weight: 400;
+}
+
+.dagestan-pricing-total {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid hsl(var(--primary));
+}
+
+.dagestan-pricing-total strong {
+  font-size: 1.75rem !important;
+  color: hsl(var(--primary)) !important;
+}
+
+.dagestan-error {
+  background: hsl(var(--destructive) / 0.1);
+  border: 1px solid hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
+  padding: 1rem;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.dagestan-user-info {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.dagestan-user-title {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+  margin-bottom: 1rem;
+}
+
+.dagestan-user-details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dagestan-user-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: hsl(var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  font-family: var(--font-serif);
+}
+
+.dagestan-user-name {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: hsl(var(--foreground));
+  font-style: italic;
+}
+
+.dagestan-user-email {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.dagestan-modal-footer {
+  padding: 2rem 2.5rem 2.5rem;
+  background: hsl(var(--card));
+  border-top: 1px solid hsl(var(--border));
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.dagestan-btn-secondary,
+.dagestan-btn-primary {
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.dagestan-btn-secondary {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.dagestan-btn-secondary:hover {
+  background: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+.dagestan-btn-primary {
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.dagestan-btn-primary:hover:not(:disabled) {
+  background: hsl(var(--foreground) / 0.9);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated);
+}
+
+.dagestan-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dagestan-modal-container {
+    width: 95vw;
+    margin: 1rem;
+  }
+  
+  .dagestan-modal-header {
+    padding: 1.5rem;
+  }
+  
+  .dagestan-modal-body {
+    padding: 2rem 1.5rem;
+  }
+  
+  .dagestan-vehicle-showcase {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .dagestan-date-inputs {
+    grid-template-columns: 1fr;
+  }
+  
+  .dagestan-modal-footer {
+    padding: 1.5rem;
+    flex-direction: column;
+  }
+}
