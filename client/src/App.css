@@ -22,6 +22,7 @@
   max-width: 100%;
   padding-left: clamp(16px, 4vw, 64px);
   padding-right: clamp(16px, 4vw, 64px);
+  padding-top: 100px; /* Account for fixed navbar */
 }
 .app-shell--wide {
   padding-left: 0;

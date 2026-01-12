@@ -48,21 +48,53 @@ const getLast12Months = () => {
 };
 
 const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, setActiveTab }) => {
-  // Photobooth data with descriptions
+  // Vehicle rental highlights for marquee
   const marqueeItems = [
-    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Dagestan Mountains', desc: 'Breathtaking peaks and valleys' },
-    { src: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Caspian Shores', desc: 'Serene lakeside views' },
-    { src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Mountain Villages', desc: 'Charming alpine settlements' },
-    { src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Forest Trails', desc: 'Lush greenery and paths' },
-    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Highland Landscapes', desc: 'Majestic high-altitude scenery' },
-    { src: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Coastal Retreats', desc: 'Peaceful seaside escapes' },
+    {
+      src: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1000&q=80',
+      title: 'City Cruisers',
+      desc: 'Compact cars built for everyday city drives.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=80',
+      title: 'Family Getaways',
+      desc: 'Spacious SUVs ready for your next road trip.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1000&q=80',
+      title: 'Business Class',
+      desc: 'Premium sedans for meetings and events.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80',
+      title: 'Weekend Adventures',
+      desc: 'Rugged rides built for off-road fun.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1000&q=80',
+      title: 'Daily Commute',
+      desc: 'Fuel‑efficient options for budget-friendly travel.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1000&q=80',
+      title: 'Last‑Minute Rides',
+      desc: 'Fast booking, instant confirmations, zero hassle.',
+    },
     // Duplicates for seamless scroll
-    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Dagestan Mountains', desc: 'Breathtaking peaks and valleys' },
-    { src: 'https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', title: 'Caspian Shores', desc: 'Serene lakeside views' },
+    {
+      src: 'https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1000&q=80',
+      title: 'Drive Your Day',
+      desc: 'Choose the perfect vehicle for every journey.',
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1000&q=80',
+      title: 'Ride On Demand',
+      desc: 'From hatchbacks to SUVs, always ready to go.',
+    },
   ];
 
   // Video URL
-  const heroVideoUrl = 'https://www.pexels.com/download/video/1851190/';
+  const heroVideoUrl = 'https://www.pexels.com/download/video/2053100/';
 
   // Compute chart data from rentals
   const last12Months = getLast12Months();
@@ -122,7 +154,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
         cornerRadius: 6,
         displayColors: true,
         callbacks: {
-          label: function(context: any) {
+          label: function (context: any) {
             return `${context.label}: ${context.parsed}`;
           }
         }
@@ -211,7 +243,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
         },
         ticks: {
           color: '#495057',
-          callback: function(value: any) {
+          callback: function (value: any) {
             return '$' + value;
           }
         }
@@ -432,7 +464,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
         cornerRadius: 6,
         displayColors: true,
         callbacks: {
-          label: function(context: any) {
+          label: function (context: any) {
             return `${context.label}: ${context.parsed}`;
           }
         }
@@ -497,7 +529,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
             </div>
             <p className="dagestan-subtitle mb-4">Discover vehicles perfect for your RentalDay adventures.</p>
             <ul className="list-unstyled text-muted">
-              <li className="mb-2"><i className="fas fa-route text-success me-2"></i>Mountain Routes</li>
+              <li className="mb-2"><i className="fas fa-route text-success me-2"></i>Island Routes</li>
               <li className="mb-2"><i className="fas fa-dollar-sign text-success me-2"></i>Affordable Pricing</li>
               <li className="mb-2"><i className="fas fa-shield-alt text-success me-2"></i>Safe Journeys</li>
             </ul>
@@ -517,11 +549,11 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
           <div className="dagestan-card h-100 p-4">
             <div className="d-flex align-items-center mb-3">
               <i className="fas fa-users fa-4x text-success me-3"></i>
-              <h3 className="dagestan-title mb-0">Meet Our <span className="text-success">Travelers</span></h3>
+              <h3 className="dagestan-title mb-0">Meet Our <span className="text-success">Community</span></h3>
             </div>
             <p className="dagestan-subtitle mb-4">Connect with fellow adventurers exploring RentalDay.</p>
             <ul className="list-unstyled text-muted">
-              <li className="mb-2"><i className="fas fa-user-check text-success me-2"></i>Verified Travelers</li>
+              <li className="mb-2"><i className="fas fa-user-check text-success me-2"></i>Verified Members</li>
               <li className="mb-2"><i className="fas fa-shield-alt text-success me-2"></i>Safe Community</li>
               <li className="mb-2"><i className="fas fa-comments text-success me-2"></i>Travel Stories</li>
             </ul>
@@ -532,7 +564,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
               </div>
             </div>
             <button className="dagestan-btn w-100" onClick={() => setActiveTab('users')}>
-              Meet Travelers ({userCount} Active)
+              Meet Community ({userCount} Active)
             </button>
           </div>
         </div>
@@ -548,8 +580,8 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
             </div>
             <p className="dagestan-subtitle mb-4">Plan and manage your adventures across RentalDay.</p>
             <ul className="list-unstyled text-muted">
-              <li className="mb-2"><i className="fas fa-check-circle text-success me-2"></i>Confirmed Reservations</li>
-              <li className="mb-2"><i className="fas fa-sync-alt text-success me-2"></i>Journey Tracking</li>
+              <li className="mb-2"><i className="fas fa-check-circle text-success me-2"></i>Confirmed Bookings</li>
+              <li className="mb-2"><i className="fas fa-sync-alt text-success me-2"></i>Booking History</li>
               <li className="mb-2"><i className="fas fa-chart-bar text-success me-2"></i>Adventure Insights</li>
             </ul>
             <div className="row">
@@ -632,8 +664,8 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
                   <span className="small fw-bold">Booking Load</span>
                   <span className="small fw-bold text-success">12%</span>
                 </div>
-                <div className="progress" style={{height: '10px'}}>
-                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{width: '12%'}}></div>
+                <div className="progress" style={{ height: '10px' }}>
+                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{ width: '12%' }}></div>
                 </div>
               </div>
               <div className="col-md-3">
@@ -641,8 +673,8 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
                   <span className="small fw-bold">Journey Storage</span>
                   <span className="small fw-bold text-success">45%</span>
                 </div>
-                <div className="progress" style={{height: '10px'}}>
-                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{width: '45%'}}></div>
+                <div className="progress" style={{ height: '10px' }}>
+                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{ width: '45%' }}></div>
                 </div>
               </div>
               <div className="col-md-3">
@@ -650,8 +682,8 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
                   <span className="small fw-bold">Fleet Capacity</span>
                   <span className="small fw-bold text-success">85%</span>
                 </div>
-                <div className="progress" style={{height: '10px'}}>
-                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{width: '85%'}}></div>
+                <div className="progress" style={{ height: '10px' }}>
+                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{ width: '85%' }}></div>
                 </div>
               </div>
               <div className="col-md-3">
@@ -659,17 +691,17 @@ const InfoTab: React.FC<InfoTabProps> = ({ vehicleCount, userCount, rentals, set
                   <span className="small fw-bold">Adventure Ready</span>
                   <span className="small fw-bold text-success">95%</span>
                 </div>
-                <div className="progress" style={{height: '10px'}}>
-                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{width: '95%'}}></div>
+                <div className="progress" style={{ height: '10px' }}>
+                  <div className="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style={{ width: '95%' }}></div>
                 </div>
               </div>
             </div>
             <div className="mt-4">
               <h6 className="small fw-bold text-muted mb-2">ADVENTURE TRENDS</h6>
-              <img 
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
-                alt="Dagestan Adventure Trends" 
-                className="w-100 rounded shadow" 
+              <img
+                src="https://images.pexels.com/photos/29490068/pexels-photo-29490068.jpeg"
+                alt="Dagestan Adventure Trends"
+                className="w-100 rounded shadow"
                 style={{ height: '250px', objectFit: 'cover' }}
               />
             </div>

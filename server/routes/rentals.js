@@ -70,7 +70,7 @@ router.post('/', authenticateToken, async (req, res) => {
     // Populate user and vehicle details for response
     const populatedRental = await Rental.findById(rental._id)
       .populate('user', 'username email')
-      .populate('vehicle', 'make model manufacturedYear price images');
+      .populate('vehicle', 'make model manufacturedYear price images fuelType gear mileage');
     
     res.status(201).json(populatedRental);
   } catch (error) {
@@ -83,7 +83,7 @@ router.post('/', authenticateToken, async (req, res) => {
 router.get('/my-rentals', authenticateToken, async (req, res) => {
   try {
     const rentals = await Rental.find({ user: req.user.id })
-      .populate('vehicle', 'make model manufacturedYear price images')
+      .populate('vehicle', 'make model manufacturedYear price images fuelType gear mileage')
       .sort({ createdAt: -1 });
     
     res.json(rentals);
@@ -103,7 +103,7 @@ router.get('/all', authenticateToken, async (req, res) => {
 
     const rentals = await Rental.find()
       .populate('user', 'username email')
-      .populate('vehicle', 'make model manufacturedYear price images')
+      .populate('vehicle', 'make model manufacturedYear price images fuelType gear mileage')
       .sort({ createdAt: -1 });
     
     res.json(rentals);
@@ -135,7 +135,7 @@ router.put('/:id/status', authenticateToken, async (req, res) => {
       { status },
       { new: true }
     ).populate('user', 'username email')
-      .populate('vehicle', 'make model manufacturedYear price images');
+      .populate('vehicle', 'make model manufacturedYear price images fuelType gear mileage');
 
     if (!rental) {
       return res.status(404).json({ message: 'Rental not found' });

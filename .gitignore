@@ -65,6 +65,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Uploads folder
+server/uploads/
+
 # Sensitive files (credentials, keys, etc.)
 id_rsa
 id_rsa.pub

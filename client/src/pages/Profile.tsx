@@ -14,8 +14,29 @@ interface ProfileDetails {
   licenseNumber?: string;
 }
 
+interface Rental {
+  _id: string;
+  vehicle: {
+    make: string;
+    model: string;
+    manufacturedYear?: number;
+    fuelType?: string;
+    gear?: string;
+    mileage?: number;
+    price?: number;
+    imageUrl?: string;
+  };
+  startDate: string;
+  endDate: string;
+  totalCost: number;
+  status: string;
+  createdAt: string;
+}
+
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  const [rentals, setRentals] = useState<Rental[]>([]);
+  const [loadingRentals, setLoadingRentals] = useState(true);
   const [profileDetails, setProfileDetails] = useState<ProfileDetails>({
     userId: '',
     firstName: '',
@@ -31,7 +52,7 @@ const Profile: React.FC = () => {
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
 
   // Mock "Reputation" score for UI flavor
-  const reputationScore = 85; 
+  const reputationScore = 85;
 
   useEffect(() => {
     if (user) {
@@ -41,6 +62,37 @@ const Profile: React.FC = () => {
       // Reset avatar states when user changes
       setAvatarPreview(null);
       setSelectedAvatar(null);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const fetchUserRentals = async () => {
+      try {
+        if (!user) {
+          throw new Error('User not authenticated');
+        }
+
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL || 'http://localhost:5003'}/api/rentals/my-rentals`,
+          {
+            headers: {
+              'user-id': user._id,
+              'user-role': user.role,
+            }
+          }
+        );
+
+        console.log('Rentals fetched:', response.data); // Debug log
+        setRentals(response.data);
+      } catch (error) {
+        console.error('Error fetching user rentals:', error);
+      } finally {
+        setLoadingRentals(false);
+      }
+    };
+
+    if (user) {
+      fetchUserRentals();
     }
   }, [user]);
 
@@ -56,7 +108,7 @@ const Profile: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       setSelectedAvatar(file);
-      
+
       // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -68,7 +120,7 @@ const Profile: React.FC = () => {
 
   const ensureAvatarUrl = (avatarPath: string | undefined | null, fallbackUsername?: string): string => {
     if (!avatarPath) {
-      return fallbackUsername 
+      return fallbackUsername
         ? `https://ui-avatars.com/api/?name=${fallbackUsername}&background=0D8ABC&color=fff&size=150`
         : `https://ui-avatars.com/api/?name=Default&background=0D8ABC&color=fff&size=150`;
     }
@@ -79,38 +131,38 @@ const Profile: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!user) {
       setMessage('User not found');
       return;
     }
-    
+
     try {
       // Update profile details first
       const response = await axios.put(`/api/users/profile/${user._id}`, {
         profileDetails
       });
-      
+
       let updatedUser = { ...user, profileDetails: response.data.profileDetails };
-      
+
       // If there's a new avatar, upload it
       if (selectedAvatar) {
         const formData = new FormData();
         formData.append('avatar', selectedAvatar);
-        
+
         const avatarResponse = await axios.post(`/api/users/${user._id}/avatar`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-        
+
         updatedUser = { ...updatedUser, avatar: ensureAvatarUrl(avatarResponse.data.avatar) };
       }
-      
+
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      
+
       setMessage('Profile updated successfully!');
-      
+
       setTimeout(() => {
         setIsEditing(false);
         setMessage('');
@@ -128,9 +180,9 @@ const Profile: React.FC = () => {
 
   return (
     <div className="container py-5">
-      
+
       {/* HEADER SECTION */}
-      <div className="d-flex justify-content-between align-items-end mb-5">
+      <div className="d-flex justify-content-between align-items-end mb-5 mt-5">
         <div>
           <h6 className="text-success fw-bold letter-spacing-2 mb-1">IDENTITY MANAGEMENT</h6>
           <h2 className="display-5 fw-bold mb-0">PILOT <span className="text-muted">DOSSIER</span></h2>
@@ -142,23 +194,23 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="row g-4">
-        
+
         {/* --- LEFT COLUMN: IDENTITY CARD --- */}
         <div className="col-lg-4">
           <div className="card tech-card border-0 h-100 position-relative">
             <div className="card-body text-center pt-5">
-              
+
               {/* Avatar with Tech Ring */}
               <div className="position-relative d-inline-block mb-4">
-                 <div className="border border-2 border-success rounded-circle p-1">
-                    <img 
-                      src={ensureAvatarUrl(user.avatar, user.username)} 
-                      alt="Profile" 
-                      className="rounded-circle"
-                      style={{width: '120px', height: '120px'}} 
-                    />
-                 </div>
-                 <div className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-2" title="Online"></div>
+                <div className="border border-2 border-success rounded-circle p-1">
+                  <img
+                    src={ensureAvatarUrl(user.avatar, user.username)}
+                    alt="Profile"
+                    className="rounded-circle"
+                    style={{ width: '120px', height: '120px' }}
+                  />
+                </div>
+                <div className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-2" title="Online"></div>
               </div>
 
               <h3 className="fw-bold mb-1">{user.username}</h3>
@@ -166,34 +218,34 @@ const Profile: React.FC = () => {
 
               {/* Role Badge */}
               <div className="mb-4">
-                 <span className={`badge rounded-0 py-2 px-3 ${user.role === 'admin' ? 'bg-danger' : 'bg-dark'}`}>
-                    ROLE: {user.role.toUpperCase()}
-                 </span>
+                <span className={`badge rounded-0 py-2 px-3 ${user.role === 'admin' ? 'bg-danger' : 'bg-dark'}`}>
+                  ROLE: {user.role.toUpperCase()}
+                </span>
               </div>
 
               {/* Mock Stats */}
               <div className="row g-2 text-start mt-4 pt-4 border-top">
-                 <div className="col-12 mb-3">
-                    <div className="d-flex justify-content-between mb-1">
-                       <small className="fw-bold text-muted">REPUTATION SCORE</small>
-                       <small className="fw-bold text-success">{reputationScore}/100</small>
-                    </div>
-                    <div className="progress" style={{height: '6px'}}>
-                       <div className="progress-bar bg-success" role="progressbar" style={{width: `${reputationScore}%`}}></div>
-                    </div>
-                 </div>
-                 <div className="col-6">
-                    <div className="p-2 bg-light border">
-                       <small className="d-block text-muted" style={{fontSize: '10px'}}>TOTAL TRIPS</small>
-                       <span className="fw-bold">0</span>
-                    </div>
-                 </div>
-                 <div className="col-6">
-                    <div className="p-2 bg-light border">
-                       <small className="d-block text-muted" style={{fontSize: '10px'}}>MEMBER SINCE</small>
-                       <span className="fw-bold">2025</span>
-                    </div>
-                 </div>
+                <div className="col-12 mb-3">
+                  <div className="d-flex justify-content-between mb-1">
+                    <small className="fw-bold text-muted">REPUTATION SCORE</small>
+                    <small className="fw-bold text-success">{reputationScore}/100</small>
+                  </div>
+                  <div className="progress" style={{ height: '6px' }}>
+                    <div className="progress-bar bg-success" role="progressbar" style={{ width: `${reputationScore}%` }}></div>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="p-2 bg-light border">
+                    <small className="d-block text-muted" style={{ fontSize: '10px' }}>TOTAL TRIPS</small>
+                    <span className="fw-bold">{rentals.length}</span>
+                  </div>
+                </div>
+                <div className="col-6">
+                  <div className="p-2 bg-light border">
+                    <small className="d-block text-muted" style={{ fontSize: '10px' }}>MEMBER SINCE</small>
+                    <span className="fw-bold">2025</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -203,17 +255,17 @@ const Profile: React.FC = () => {
         <div className="col-lg-8">
           <div className="card tech-card border-0 h-100">
             <div className="card-body">
-              
+
               <div className="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-                 <h5 className="fw-bold text-success mb-0">PERSONAL DATA</h5>
-                 {!isEditing && (
-                   <button 
-                     className="btn btn-sm btn-outline-dark rounded-0 fw-bold" 
-                     onClick={() => setIsEditing(true)}
-                   >
-                     EDIT DATA
-                   </button>
-                 )}
+                <h5 className="fw-bold text-success mb-0">PERSONAL DATA</h5>
+                {!isEditing && (
+                  <button
+                    className="btn btn-sm btn-outline-dark rounded-0 fw-bold"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    EDIT DATA
+                  </button>
+                )}
               </div>
 
               {message && (
@@ -248,19 +300,19 @@ const Profile: React.FC = () => {
                         placeholder="Enter last name"
                       />
                     </div>
-                    
+
                     <div className="col-12">
                       <label className="form-label small fw-bold text-muted">CONTACT PHONE</label>
                       <input
-                          type="text"
-                          className="form-control rounded-0"
-                          name="phone"
-                          value={profileDetails.phone}
-                          onChange={handleInputChange}
-                          placeholder="+1 (555) 000-0000"
-                        />
+                        type="text"
+                        className="form-control rounded-0"
+                        name="phone"
+                        value={profileDetails.phone}
+                        onChange={handleInputChange}
+                        placeholder="+1 (555) 000-0000"
+                      />
                     </div>
-                    
+
                     <div className="col-12">
                       <label className="form-label small fw-bold text-muted">RESIDENTIAL ADDRESS</label>
                       <textarea
@@ -272,7 +324,7 @@ const Profile: React.FC = () => {
                         placeholder="Full street address"
                       ></textarea>
                     </div>
-                    
+
                     <div className="col-md-6">
                       <label className="form-label small fw-bold text-muted">DATE OF BIRTH</label>
                       <input
@@ -283,7 +335,7 @@ const Profile: React.FC = () => {
                         onChange={handleInputChange}
                       />
                     </div>
-                    
+
                     <div className="col-md-6">
                       <label className="form-label small fw-bold text-muted">DRIVER'S LICENSE ID</label>
                       <input
@@ -295,7 +347,7 @@ const Profile: React.FC = () => {
                         placeholder="License number"
                       />
                     </div>
-                    
+
                     <div className="col-12">
                       <label className="form-label small fw-bold text-muted">PROFILE PHOTO</label>
                       <input
@@ -306,12 +358,12 @@ const Profile: React.FC = () => {
                       />
                       {avatarPreview && (
                         <div className="mt-2">
-                          <img src={avatarPreview} alt="Preview" style={{width: '100px', height: '100px', objectFit: 'cover', borderRadius: '50%'}} />
+                          <img src={avatarPreview} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '50%' }} />
                         </div>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
                     <button type="button" className="btn btn-light rounded-0" onClick={() => setIsEditing(false)}>CANCEL</button>
                     <button type="submit" className="btn btn-success rounded-0 px-4">SAVE CHANGES</button>
@@ -320,78 +372,152 @@ const Profile: React.FC = () => {
               ) : (
                 /* --- VIEW MODE (DATA GRID) --- */
                 <div className="row g-4 animate-fade-in">
-                   <div className="col-md-6">
-                      <div className="p-3 border bg-light h-100">
-                         <small className="text-muted d-block mb-1" style={{fontSize: '10px'}}>FULL NAME</small>
-                         <p className="fw-bold mb-0 text-dark">
-                           {profileDetails.firstName || profileDetails.lastName 
-                             ? `${profileDetails.firstName} ${profileDetails.lastName}` 
-                             : <span className="text-muted fst-italic">Not Recorded</span>}
-                         </p>
-                      </div>
-                   </div>
+                  <div className="col-md-6">
+                    <div className="p-3 border bg-light h-100">
+                      <small className="text-muted d-block mb-1" style={{ fontSize: '10px' }}>FULL NAME</small>
+                      <p className="fw-bold mb-0 text-dark">
+                        {profileDetails.firstName || profileDetails.lastName
+                          ? `${profileDetails.firstName} ${profileDetails.lastName}`
+                          : <span className="text-muted fst-italic">Not Recorded</span>}
+                      </p>
+                    </div>
+                  </div>
 
-                   <div className="col-md-6">
-                      <div className="p-3 border bg-light h-100">
-                         <small className="text-muted d-block mb-1" style={{fontSize: '10px'}}>DATE OF BIRTH</small>
-                         <p className="fw-bold mb-0 text-dark">
-                            {profileDetails.dateOfBirth 
-                              ? new Date(profileDetails.dateOfBirth).toLocaleDateString() 
-                              : <span className="text-muted fst-italic">Not Recorded</span>}
-                         </p>
-                      </div>
-                   </div>
+                  <div className="col-md-6">
+                    <div className="p-3 border bg-light h-100">
+                      <small className="text-muted d-block mb-1" style={{ fontSize: '10px' }}>DATE OF BIRTH</small>
+                      <p className="fw-bold mb-0 text-dark">
+                        {profileDetails.dateOfBirth
+                          ? new Date(profileDetails.dateOfBirth).toLocaleDateString()
+                          : <span className="text-muted fst-italic">Not Recorded</span>}
+                      </p>
+                    </div>
+                  </div>
 
-                   <div className="col-md-6">
-                      <div className="p-3 border bg-light h-100">
-                         <small className="text-muted d-block mb-1" style={{fontSize: '10px'}}>DRIVER'S LICENSE</small>
-                         <p className="fw-bold mb-0 text-dark">
-                            {profileDetails.licenseNumber 
-                              ? profileDetails.licenseNumber
-                              : <span className="text-muted fst-italic">Not Recorded</span>}
-                         </p>
-                      </div>
-                   </div>
+                  <div className="col-md-6">
+                    <div className="p-3 border bg-light h-100">
+                      <small className="text-muted d-block mb-1" style={{ fontSize: '10px' }}>DRIVER'S LICENSE</small>
+                      <p className="fw-bold mb-0 text-dark">
+                        {profileDetails.licenseNumber
+                          ? profileDetails.licenseNumber
+                          : <span className="text-muted fst-italic">Not Recorded</span>}
+                      </p>
+                    </div>
+                  </div>
 
-                   <div className="col-md-12">
-                      <div className="p-3 border bg-light h-100">
-                         <small className="text-muted d-block mb-1" style={{fontSize: '10px'}}>CONTACT INFO</small>
-                         <div className="d-flex justify-content-between align-items-center">
-                            <span className="fw-bold text-dark">
-                               {profileDetails.phone || <span className="text-muted fst-italic">No Phone Linked</span>}
+                  <div className="col-md-12">
+                    <div className="p-3 border bg-light h-100">
+                      <small className="text-muted d-block mb-1" style={{ fontSize: '10px' }}>CONTACT INFO</small>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <span className="fw-bold text-dark">
+                          {profileDetails.phone || <span className="text-muted fst-italic">No Phone Linked</span>}
+                        </span>
+                        <span className="badge bg-success bg-opacity-10 text-success">PRIMARY</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-12">
+                    <div className="p-3 border bg-light h-100">
+                      <small className="text-muted d-block mb-1" style={{ fontSize: '10px' }}>REGISTERED ADDRESS</small>
+                      <p className="fw-bold mb-0 text-dark">
+                        {profileDetails.address || <span className="text-muted fst-italic">No Address on File</span>}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* System Logs (Decorational) */}
+                  <div className="col-12 mt-4">
+                    <h6 className="text-muted fw-bold small mb-3">SYSTEM LOGS</h6>
+                    <div className="bg-dark text-white p-3 font-monospace small" style={{ fontSize: '11px', opacity: 0.8 }}>
+                      <div className="d-flex justify-content-between mb-1">
+                        <span className="text-success">ACCESS_GRANTED</span>
+                        <span>{new Date().toLocaleDateString()} 14:02:55</span>
+                      </div>
+                      <div className="d-flex justify-content-between mb-1">
+                        <span className="text-success">DATA_SYNC</span>
+                        <span>{new Date().toLocaleDateString()} 09:15:22</span>
+                      </div>
+                      <div className="d-flex justify-content-between">
+                        <span className="text-secondary">ENCRYPTION_KEY</span>
+                        <span>SHA-256 VERIFIED</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* RENTAL HISTORY SECTION */}
+      <div className="row mt-5">
+        <div className="col-12">
+          <div className="card tech-card border-0">
+            <div className="card-body">
+              <div className="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <h5 className="fw-bold text-success mb-0">RENTAL HISTORY</h5>
+                <span className="badge bg-success rounded-0">
+                  {rentals.length} Trip{rentals.length !== 1 ? 's' : ''}
+                </span>
+              </div>
+
+              {loadingRentals ? (
+                <div className="d-flex justify-content-center py-4">
+                  <div className="spinner-border text-success" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : rentals.length > 0 ? (
+                <div className="row g-3">
+                  {rentals.slice(0, 6).map((rental) => (
+                    <div key={rental._id} className="col-md-6 col-lg-4">
+                      <div className="card h-100 border">
+                        <div className="card-body">
+                          <div className="d-flex justify-content-between mb-2">
+                            <span className="badge bg-light text-dark border">
+                              {new Date(rental.startDate).toLocaleDateString()}
                             </span>
-                            <span className="badge bg-success bg-opacity-10 text-success">PRIMARY</span>
-                         </div>
+                            <span className={`badge ${rental.status === 'Completed' ? 'bg-success' :
+                                rental.status === 'Approved' ? 'bg-success' :
+                                  rental.status === 'Ongoing' ? 'bg-primary' :
+                                    'bg-warning text-dark'
+                              }`}>
+                              {rental.status}
+                            </span>
+                          </div>
+                          <h6 className="card-title fw-bold">{rental.vehicle.make} {rental.vehicle.model}</h6>
+                          <div className="d-flex flex-wrap gap-2 text-muted mb-2">
+                            <small className="d-flex align-items-center gap-1">
+                              <i className="bi bi-calendar"></i>
+                              {new Date(rental.startDate).toLocaleDateString()} - {new Date(rental.endDate).toLocaleDateString()}
+                            </small>
+                            <small className="d-flex align-items-center gap-1">
+                              <i className="bi bi-fuel-pump"></i>
+                              {rental.vehicle?.fuelType || 'N/A'}
+                            </small>
+                            <small className="d-flex align-items-center gap-1">
+                              <i className="bi bi-gear"></i>
+                              {rental.vehicle?.gear || 'N/A'}
+                            </small>
+                            <small className="d-flex align-items-center gap-1">
+                              <i className="bi bi-speedometer"></i>
+                              {rental.vehicle?.mileage ? rental.vehicle.mileage + ' km' : 'N/A'}
+                            </small>
+                          </div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <span className="fw-bold">${rental.totalCost.toFixed(2)}</span>
+                            <span className="text-muted small">Paid</span>
+                          </div>
+                        </div>
                       </div>
-                   </div>
-
-                   <div className="col-md-12">
-                      <div className="p-3 border bg-light h-100">
-                         <small className="text-muted d-block mb-1" style={{fontSize: '10px'}}>REGISTERED ADDRESS</small>
-                         <p className="fw-bold mb-0 text-dark">
-                            {profileDetails.address || <span className="text-muted fst-italic">No Address on File</span>}
-                         </p>
-                      </div>
-                   </div>
-                   
-                   {/* System Logs (Decorational) */}
-                   <div className="col-12 mt-4">
-                      <h6 className="text-muted fw-bold small mb-3">SYSTEM LOGS</h6>
-                      <div className="bg-dark text-white p-3 font-monospace small" style={{fontSize: '11px', opacity: 0.8}}>
-                         <div className="d-flex justify-content-between mb-1">
-                            <span className="text-success">ACCESS_GRANTED</span>
-                            <span>{new Date().toLocaleDateString()} 14:02:55</span>
-                         </div>
-                         <div className="d-flex justify-content-between mb-1">
-                            <span className="text-success">DATA_SYNC</span>
-                            <span>{new Date().toLocaleDateString()} 09:15:22</span>
-                         </div>
-                         <div className="d-flex justify-content-between">
-                            <span className="text-secondary">ENCRYPTION_KEY</span>
-                            <span>SHA-256 VERIFIED</span>
-                         </div>
-                      </div>
-                   </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-muted mb-0">No rental history yet. Book your first vehicle to see it here.</p>
                 </div>
               )}
             </div>

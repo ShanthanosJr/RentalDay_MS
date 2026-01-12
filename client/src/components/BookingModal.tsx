@@ -24,11 +24,11 @@ interface BookingModalProps {
   onBookingSuccess: () => void;
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({ 
-  show, 
-  onClose, 
-  vehicle, 
-  onBookingSuccess 
+const BookingModal: React.FC<BookingModalProps> = ({
+  show,
+  onClose,
+  vehicle,
+  onBookingSuccess
 }) => {
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
@@ -36,14 +36,14 @@ const BookingModal: React.FC<BookingModalProps> = ({
   const [totalCost, setTotalCost] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
-  
+
   const { user } = useAuth();
 
   useEffect(() => {
     if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
-      
+
       if (end >= start) {
         const timeDiff = end.getTime() - start.getTime();
         const days = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
@@ -102,7 +102,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
   if (!show) return null;
 
   return (
-    <div className="dagestan-modal-overlay">
+    <div className="dagestan-modal-overlay" style={{ zIndex: 1050 }}>
       <div className="dagestan-modal-container">
         <div className="dagestan-modal-content">
           {/* Header */}
@@ -125,8 +125,8 @@ const BookingModal: React.FC<BookingModalProps> = ({
             {/* Vehicle Showcase */}
             <div className="dagestan-vehicle-showcase">
               <div className="dagestan-vehicle-image-wrapper">
-                <img 
-                  src={vehicle.imageUrl || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&fit=crop'} 
+                <img
+                  src={vehicle.imageUrl || 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&fit=crop'}
                   alt={`${vehicle.make} ${vehicle.model}`}
                   className="dagestan-vehicle-image"
                 />
@@ -134,7 +134,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
                   ${vehicle.price}/day
                 </div>
               </div>
-              
+
               <div className="dagestan-vehicle-details">
                 <div className="dagestan-vehicle-specs">
                   <div className="dagestan-spec-item">
@@ -246,7 +246,7 @@ const BookingModal: React.FC<BookingModalProps> = ({
             <button className="dagestan-btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <button 
+            <button
               className="dagestan-btn-primary"
               onClick={handleSubmit}
               disabled={loading || !startDate || !endDate || totalCost <= 0 || !!error}

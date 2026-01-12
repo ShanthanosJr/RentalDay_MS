@@ -28,7 +28,7 @@ const VehicleList: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
-  
+
   const { user } = useAuth(); // Get user from AuthContext
 
   // --- PAGINATION STATE ---
@@ -49,7 +49,7 @@ const VehicleList: React.FC = () => {
       setLoading(false);
     }
   };
-// --- PAGINATION LOGIC ---
+  // --- PAGINATION LOGIC ---
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentVehicles = vehicles.slice(indexOfFirstItem, indexOfLastItem);
@@ -60,9 +60,9 @@ const VehicleList: React.FC = () => {
 
   if (loading) {
     return <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-        <div className="spinner-border text-success" role="status">
-            <span className="visually-hidden">Loading...</span>
-        </div>
+      <div className="spinner-border text-success" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
     </div>;
   }
 
@@ -76,10 +76,11 @@ const VehicleList: React.FC = () => {
       <div className="py-5">
         <div className="row mb-5 align-items-end">
           <div className="col-md-8">
-
+            <h6 className="text-success fw-bold">THE FUTURE OF MOBILITY</h6>
+            <h2 className="display-4 fw-bold mb-4">SEAMLESS & AUTONOMOUS</h2>
           </div>
           <div className="col-md-4 text-md-end">
-             <span className="badge bg-dark text-success p-2 fs-6 rounded-0">LIVE INVENTORY</span>
+            <span className="badge bg-dark text-success p-2 fs-6 rounded-0">LIVE INVENTORY</span>
           </div>
         </div>
 
@@ -89,27 +90,27 @@ const VehicleList: React.FC = () => {
               {/* APPLYING THE NEW TECH-CARD CLASS HERE */}
               <div className="card tech-card h-100 border-0">
                 <div className="position-relative mb-3">
-                  <img 
-                    src={vehicle.images && vehicle.images.length > 0 
-                      ? vehicle.images[0].startsWith('/uploads') 
-                        ? `http://localhost:5003${vehicle.images[0]}` 
+                  <img
+                    src={vehicle.images && vehicle.images.length > 0
+                      ? vehicle.images[0].startsWith('/uploads')
+                        ? `http://localhost:5003${vehicle.images[0]}`
                         : vehicle.images[0]
-                      : vehicle.imageUrl && vehicle.imageUrl.startsWith('/uploads') 
-                        ? `http://localhost:5003${vehicle.imageUrl}` 
-                        : vehicle.imageUrl || "https://via.placeholder.com/400x300"} 
-                    className="img-fluid" 
+                      : vehicle.imageUrl && vehicle.imageUrl.startsWith('/uploads')
+                        ? `http://localhost:5003${vehicle.imageUrl}`
+                        : vehicle.imageUrl || "https://via.placeholder.com/400x300"}
+                    className="img-fluid"
                     alt={vehicle.make}
-                    style={{ height: '220px', width: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }} 
+                    style={{ height: '220px', width: '100%', objectFit: 'cover', filter: 'grayscale(20%)' }}
                   />
                   <div className="position-absolute top-0 start-0 bg-success text-white px-3 py-1 fw-bold small">
                     {vehicle.vehicleId}
                   </div>
                 </div>
-                
+
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h4 className="mb-0 fw-bold">{vehicle.make} <span className="text-muted fw-light">{vehicle.model}</span></h4>
                 </div>
-                
+
                 <div className="mb-3">
                   <div className="d-flex justify-content-between mb-1">
                     <small className="text-muted">Year: {vehicle.manufacturedYear}</small>
@@ -124,15 +125,15 @@ const VehicleList: React.FC = () => {
                     <small className="text-muted">Reg: {vehicle.registrationYear}</small>
                   </div>
                 </div>
-                
-                <p className="text-muted small mb-4" style={{minHeight: '60px'}}>{vehicle.description}</p>
-                
+
+                <p className="text-muted small mb-4" style={{ minHeight: '60px' }}>{vehicle.description}</p>
+
                 <div className="d-flex align-items-center justify-content-between pt-3 border-top">
                   <div>
-                    <small className="d-block text-muted text-uppercase" style={{fontSize: '0.7rem'}}>Daily Rate</small>
+                    <small className="d-block text-muted text-uppercase" style={{ fontSize: '0.7rem' }}>Daily Rate</small>
                     <span className="fs-3 fw-bold text-dark">${vehicle.price}</span>
                   </div>
-                  <button 
+                  <button
                     className="btn btn-primary"
                     onClick={() => {
                       if (user) {
@@ -151,18 +152,18 @@ const VehicleList: React.FC = () => {
           ))}
         </div>
         {/* --- ADD PAGINATION COMPONENT --- */}
-          <TechPagination 
-            itemsPerPage={itemsPerPage}
-            totalItems={vehicles.length}
-            paginate={paginate}
-            currentPage={currentPage}
-            prevPage={prevPage}
-            nextPage={nextPage}
-          />
+        <TechPagination
+          itemsPerPage={itemsPerPage}
+          totalItems={vehicles.length}
+          paginate={paginate}
+          currentPage={currentPage}
+          prevPage={prevPage}
+          nextPage={nextPage}
+        />
       </div>
-      
+
       {selectedVehicle && (
-        <BookingModal 
+        <BookingModal
           show={showBookingModal}
           onClose={() => setShowBookingModal(false)}
           vehicle={selectedVehicle!} // Non-null assertion since we check selectedVehicle above

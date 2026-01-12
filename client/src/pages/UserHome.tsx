@@ -2,24 +2,37 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import ViewDetailsModal from '../components/ViewDetailsModal';
 
 interface Rental {
   _id: string;
   vehicle: {
     make: string;
     model: string;
+    manufacturedYear?: number;
+    fuelType?: string;
+    gear?: string;
+    mileage?: number;
+    price?: number;
+    imageUrl?: string;
   };
   startDate: string;
   endDate: string;
   totalCost: number;
   status: string;
   createdAt: string;
+  user?: {
+    username: string;
+    email: string;
+  };
 }
 
 const UserHome: React.FC = () => {
   const { user } = useAuth();
   const [rentals, setRentals] = useState<Rental[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showViewDetailsModal, setShowViewDetailsModal] = useState(false);
+  const [selectedRental, setSelectedRental] = useState<Rental | null>(null);
 
   useEffect(() => {
     const fetchUserRentals = async () => {
@@ -37,7 +50,7 @@ const UserHome: React.FC = () => {
             }
           }
         );
-        
+
         setRentals(response.data);
       } catch (error) {
         console.error('Error fetching user rentals:', error);
@@ -51,6 +64,16 @@ const UserHome: React.FC = () => {
     }
   }, [user]);
 
+  const handleViewDetails = (rental: Rental) => {
+    setSelectedRental(rental);
+    setShowViewDetailsModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowViewDetailsModal(false);
+    setSelectedRental(null);
+  };
+
   if (!user || user.role !== 'user') {
     return <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>Access denied</div>;
   }
@@ -58,7 +81,6 @@ const UserHome: React.FC = () => {
   // MOCK DATA for Photo Loop (Using placeholders)
   const galleryImages = [
     "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=600",
-    "https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&q=80&w=600",
     "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=600",
     "https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&q=80&w=600",
     "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=600",
@@ -67,7 +89,7 @@ const UserHome: React.FC = () => {
 
   return (
     <div style={{ overflowX: 'hidden' }}>
-      
+
       {/* 1. HERO SECTION WITH VIDEO LOOP */}
       <section className="hero-section">
         <video className="hero-video" autoPlay loop muted playsInline>
@@ -100,12 +122,12 @@ const UserHome: React.FC = () => {
               <h6 className="text-success fw-bold">THE FUTURE OF MOBILITY</h6>
               <h2 className="display-4 fw-bold mb-4">SEAMLESS.<br />AUTONOMOUS.<br /><span className="text-muted">YOURS.</span></h2>
               <p className="text-muted lead">
-                Rental.OS isn't just a rental service. It's a key to the city. 
-                Experience Level 5 autonomy with zero latency. Our fleet reacts 
-                faster than human reflexes, ensuring a safety record that is 
+                Rental.OS isn't just a rental service. It's a key to the city.
+                Experience Level 5 autonomy with zero latency. Our fleet reacts
+                faster than human reflexes, ensuring a safety record that is
                 mathematically perfect.
               </p>
-              
+
               <div className="row mt-5 g-3">
                 <div className="col-6">
                   <div className="border-start border-3 border-success ps-3">
@@ -123,30 +145,30 @@ const UserHome: React.FC = () => {
             </div>
           </div>
           <div className="col-lg-6 mt-4 mt-lg-0">
-             {/* Abstract Graphic Element */}
-             <div className="tech-card bg-dark text-white p-5 position-relative overflow-hidden" style={{minHeight: '400px'}}>
-                <div className="position-absolute top-0 end-0 p-5 opacity-25">
-                  <i className="bi bi-cpu fs-1 display-1"></i>
+            {/* Abstract Graphic Element */}
+            <div className="tech-card bg-dark text-white p-5 position-relative overflow-hidden" style={{ minHeight: '400px' }}>
+              <div className="position-absolute top-0 end-0 p-5 opacity-25">
+                <i className="bi bi-cpu fs-1 display-1"></i>
+              </div>
+              <h3 className="fw-bold position-relative z-1">LIVE TELEMETRY</h3>
+              <div className="mt-4 position-relative z-1">
+                <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
+                  <span>Network Latency</span>
+                  <span className="text-success">12ms</span>
                 </div>
-                <h3 className="fw-bold position-relative z-1">LIVE TELEMETRY</h3>
-                <div className="mt-4 position-relative z-1">
-                   <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
-                      <span>Network Latency</span>
-                      <span className="text-success">12ms</span>
-                   </div>
-                   <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
-                      <span>Fleet Availability</span>
-                      <span className="text-success">84 Units</span>
-                   </div>
-                   <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
-                      <span>Local Weather</span>
-                      <span className="text-success">Clear / 24°C</span>
-                   </div>
+                <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
+                  <span>Fleet Availability</span>
+                  <span className="text-success">84 Units</span>
                 </div>
-                <div className="mt-5">
-                  <button className="btn btn-outline-success w-100 rounded-0">VIEW FULL ANALYTICS</button>
+                <div className="d-flex justify-content-between mb-2 border-bottom border-secondary pb-2">
+                  <span>Local Weather</span>
+                  <span className="text-success">Clear / 24°C</span>
                 </div>
-             </div>
+              </div>
+              <div className="mt-5">
+                <button className="btn btn-outline-success w-100 rounded-0">VIEW FULL ANALYTICS</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -179,26 +201,44 @@ const UserHome: React.FC = () => {
                       <span className="badge bg-light text-dark border">
                         {new Date(rental.startDate).toLocaleDateString()}
                       </span>
-                      <span className={`badge ${
-                        rental.status === 'Completed' ? 'bg-success' : 
-                        rental.status === 'Approved' ? 'bg-success' : 
-                        rental.status === 'Ongoing' ? 'bg-primary' : 
-                        'bg-warning text-dark'
-                      }`}>
+                      <span className={`badge ${rental.status === 'Completed' ? 'bg-success' :
+                          rental.status === 'Approved' ? 'bg-success' :
+                            rental.status === 'Ongoing' ? 'bg-primary' :
+                              'bg-warning text-dark'
+                        }`}>
                         {rental.status.toUpperCase()}
                       </span>
                     </div>
                     <h4 className="fw-bold">{rental.vehicle.make} {rental.vehicle.model}</h4>
-                    <div className="d-flex align-items-center gap-2 text-muted mt-3">
-                      <i className="bi bi-geo-alt"></i>
-                      <span>
-                        {new Date(rental.startDate).toLocaleDateString()} - {new Date(rental.endDate).toLocaleDateString()}
-                      </span>
+                    <div className="d-flex flex-wrap gap-2 text-muted mt-3">
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-calendar"></i>
+                        <span>
+                          {new Date(rental.startDate).toLocaleDateString()} - {new Date(rental.endDate).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-fuel-pump"></i>
+                        <span>{rental.vehicle?.fuelType || 'N/A'}</span>
+                      </div>
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-gear"></i>
+                        <span>{rental.vehicle?.gear || 'N/A'}</span>
+                      </div>
+                      <div className="d-flex align-items-center gap-1">
+                        <i className="bi bi-speedometer"></i>
+                        <span>{rental.vehicle?.mileage ? rental.vehicle.mileage + ' km' : 'N/A'}</span>
+                      </div>
                     </div>
                     <hr className="my-4 opacity-10" />
                     <div className="d-flex justify-content-between align-items-center">
                       <span className="fw-bold">${rental.totalCost.toFixed(2)}</span>
-                      <button className="btn btn-sm btn-outline-dark">VIEW DETAILS</button>
+                      <button
+                        className="btn btn-sm btn-outline-dark"
+                        onClick={() => handleViewDetails(rental)}
+                      >
+                        VIEW DETAILS
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -233,7 +273,7 @@ const UserHome: React.FC = () => {
         <div className="text-center mb-5">
           <h6 className="text-success fw-bold">COMMUNITY</h6>
           <h2 className="fw-bold">ELITE MEMBERS</h2>
-          <p className="text-muted mx-auto" style={{maxWidth: '500px'}}>
+          <p className="text-muted mx-auto" style={{ maxWidth: '500px' }}>
             Join the ranks of our top-tier pilots. Earn reputation points with every safe kilometer driven.
           </p>
         </div>
@@ -243,12 +283,12 @@ const UserHome: React.FC = () => {
             <div key={item} className="col-md-6 col-lg-3">
               <div className="member-card tech-card text-center p-4 bg-white">
                 <div className="position-relative d-inline-block mb-3">
-                  <img 
-                    src={`https://randomuser.me/api/portraits/men/${item + 20}.jpg`} 
-                    alt="Member" 
-                    className="rounded-circle member-img" 
+                  <img
+                    src={`https://randomuser.me/api/portraits/men/${item + 20}.jpg`}
+                    alt="Member"
+                    className="rounded-circle member-img"
                   />
-                  <div className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1" style={{width: '20px', height: '20px'}}></div>
+                  <div className="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1" style={{ width: '20px', height: '20px' }}></div>
                 </div>
                 <h5 className="fw-bold mb-1">Pilot {item + 84}</h5>
                 <p className="text-muted small mb-3">Rank: Commander</p>
@@ -272,6 +312,14 @@ const UserHome: React.FC = () => {
         </div>
       </section>
 
+      {/* View Details Modal */}
+      {showViewDetailsModal && selectedRental && (
+        <ViewDetailsModal
+          show={showViewDetailsModal}
+          onClose={handleCloseModal}
+          rental={selectedRental}
+        />
+      )}
     </div>
   );
 };
