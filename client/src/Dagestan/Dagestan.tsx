@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import './Dagestan.css';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 // Images
 const heroImage = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop';
@@ -163,16 +164,32 @@ const Navbar = () => {
 
 // ============ HERO ============
 const Hero = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  
+  useScrollAnimation(heroRef);
+  const titleVisible = useScrollAnimation(titleRef, { threshold: 0.1 });
+  const subtitleVisible = useScrollAnimation(subtitleRef, { threshold: 0.1 });
+
   return (
-    <section className="dagestan-hero">
+    <section ref={heroRef} className="dagestan-hero">
       <div className="dagestan-hero-bg">
         <img src={heroImage} alt="Dagestan mountain landscape" className="dagestan-hero-img" />
         <div className="dagestan-hero-overlay" />
       </div>
 
       <div className="dagestan-hero-content">
-        <h1 className="dagestan-hero-title">TourDay</h1>
-        <p className="dagestan-hero-subtitle">
+        <h1 
+          ref={titleRef}
+          className={`dagestan-hero-title scroll-animate hero-title ${titleVisible ? 'animate-in' : ''}`}
+        >
+          TourDay
+        </h1>
+        <p 
+          ref={subtitleRef}
+          className={`dagestan-hero-subtitle scroll-animate hero-subtitle ${subtitleVisible ? 'animate-in' : ''}`}
+        >
           You will have an incredible experience – the beauty<br />
           of the surrounding nature will take your breath away.
         </p>
@@ -189,10 +206,33 @@ const Hero = () => {
 
 // ============ ABOUT SECTION (FIXED TIMELINE) ============
 const AboutSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const timelineRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  
+  // Create refs for timeline items
+  const setTimelineRef = (index: number) => (el: HTMLDivElement | null) => {
+    timelineRefs.current[index] = el;
+  };
+  
+  const timelineVisible = aboutItems.map((_, index) => 
+    useScrollAnimation({ current: timelineRefs.current[index] }, { threshold: 0.1 })
+  );
+
   return (
-    <section id="about" className="dagestan-section dagestan-about">
+    <section 
+      ref={sectionRef}
+      id="about" 
+      className={`dagestan-section dagestan-about scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-section-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-section-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <span className="dagestan-section-label">About us</span>
           <div>
             <h2 className="dagestan-section-title">Five Reasons Why It's Worth Going</h2>
@@ -205,7 +245,11 @@ const AboutSection = () => {
           
           <div className="dagestan-timeline-items">
             {aboutItems.map((item, index) => (
-              <div key={index} className="dagestan-timeline-item">
+              <div 
+                key={index} 
+                ref={setTimelineRef(index)}
+                className={`dagestan-timeline-item scroll-animate timeline-item delay-${(index % 5) + 1} ${timelineVisible[index] ? 'animate-in' : ''}`}
+              >
                 {/* Left side */}
                 <div className="dagestan-timeline-left">
                   {item.imagePosition === 'left' ? (
@@ -237,10 +281,32 @@ const AboutSection = () => {
 
 // ============ TOURS SECTION ============
 const ToursSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const tourCardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  
+  const setTourCardRef = (index: number) => (el: HTMLDivElement | null) => {
+    tourCardRefs.current[index] = el;
+  };
+  
+  const tourCardVisible = tours.map((_, index) => 
+    useScrollAnimation({ current: tourCardRefs.current[index] }, { threshold: 0.1 })
+  );
+
   return (
-    <section id="tours" className="dagestan-section dagestan-tours">
+    <section 
+      ref={sectionRef}
+      id="tours" 
+      className={`dagestan-section dagestan-tours scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-section-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-section-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <span className="dagestan-section-label">Tours</span>
           <div>
             <h2 className="dagestan-section-title">We will go to the heart of the earth</h2>
@@ -250,7 +316,11 @@ const ToursSection = () => {
 
         <div className="dagestan-tours-grid">
           {tours.map((tour, index) => (
-            <div key={index} className="dagestan-tour-card">
+            <div 
+              key={index} 
+              ref={setTourCardRef(index)}
+              className={`dagestan-tour-card scroll-animate tour-card ${tourCardVisible[index] ? 'animate-in' : ''}`}
+            >
               <div className="dagestan-tour-image-wrapper">
                 <img src={tour.image} alt={tour.title} className="dagestan-tour-image" />
                 <span className="dagestan-tour-badge">{tour.duration}</span>
@@ -269,6 +339,13 @@ const ToursSection = () => {
 // ============ PHOTO CAROUSEL ============
 const PhotoCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(2);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  const carouselVisible = useScrollAnimation(carouselRef, { threshold: 0.1 });
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? photos.length - 1 : prev - 1));
@@ -298,15 +375,24 @@ const PhotoCarousel = () => {
   };
 
   return (
-    <section className="dagestan-section dagestan-carousel">
+    <section 
+      ref={sectionRef}
+      className={`dagestan-section dagestan-carousel scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-carousel-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-carousel-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <span className="dagestan-section-label">Gallery</span>
           <h2 className="dagestan-section-title">The best tour of Dagestan</h2>
           <h3 className="dagestan-section-subtitle">in customer photos</h3>
         </div>
 
-        <div className="dagestan-carousel-container">
+        <div 
+          ref={carouselRef}
+          className={`dagestan-carousel-container scroll-animate carousel ${carouselVisible ? 'animate-in' : ''}`}
+        >
           <div className="dagestan-carousel-bg-text">
             <span>EXPLORE</span>
           </div>
@@ -358,22 +444,46 @@ const PhotoCarousel = () => {
 // ============ FAQ SECTION ============
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const faqItemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  
+  const setFaqItemRef = (index: number) => (el: HTMLDivElement | null) => {
+    faqItemRefs.current[index] = el;
+  };
+  
+  const faqItemVisible = faqs.map((_, index) => 
+    useScrollAnimation({ current: faqItemRefs.current[index] }, { threshold: 0.1 })
+  );
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section className="dagestan-section dagestan-faq">
+    <section 
+      ref={sectionRef}
+      className={`dagestan-section dagestan-faq scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-faq-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-faq-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <h2 className="dagestan-section-title">Frequently asked questions</h2>
           <h3 className="dagestan-section-subtitle">about the tour</h3>
         </div>
 
         <div className="dagestan-faq-grid">
           {faqs.map((faq, index) => (
-            <div key={index} className="dagestan-faq-item">
+            <div 
+              key={index} 
+              ref={setFaqItemRef(index)}
+              className={`dagestan-faq-item scroll-animate faq-item ${faqItemVisible[index] ? 'animate-in' : ''}`}
+            >
               <button onClick={() => toggleFAQ(index)} className="dagestan-faq-question">
                 <span>{faq.question}</span>
                 <div className="dagestan-faq-icon">
@@ -393,10 +503,32 @@ const FAQSection = () => {
 
 // ============ TESTIMONIALS SECTION ============
 const TestimonialsSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const testimonialRefs = useRef<(HTMLDivElement | null)[]>([]);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  
+  const setTestimonialRef = (index: number) => (el: HTMLDivElement | null) => {
+    testimonialRefs.current[index] = el;
+  };
+  
+  const testimonialVisible = testimonials.map((_, index) => 
+    useScrollAnimation({ current: testimonialRefs.current[index] }, { threshold: 0.1 })
+  );
+
   return (
-    <section id="testimonials" className="dagestan-section dagestan-testimonials">
+    <section 
+      ref={sectionRef}
+      id="testimonials" 
+      className={`dagestan-section dagestan-testimonials scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-testimonials-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-testimonials-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <span className="dagestan-section-label">Reviews</span>
           <h2 className="dagestan-section-title">People's emotions after</h2>
           <h3 className="dagestan-section-subtitle">passing the tour</h3>
@@ -404,7 +536,11 @@ const TestimonialsSection = () => {
 
         <div className="dagestan-testimonials-grid">
           {testimonials.map((testimonial, index) => (
-            <div key={index} className="dagestan-testimonial-card">
+            <div 
+              key={index} 
+              ref={setTestimonialRef(index)}
+              className={`dagestan-testimonial-card scroll-animate testimonial-card ${testimonialVisible[index] ? 'animate-in' : ''}`}
+            >
               <p className="dagestan-testimonial-text">"{testimonial.text}"</p>
               <div className="dagestan-testimonial-author">
                 <div className="dagestan-testimonial-avatar">{testimonial.avatar}</div>
@@ -420,15 +556,32 @@ const TestimonialsSection = () => {
 
 // ============ PRICING SECTION ============
 const PricingSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const pricingCardRef = useRef<HTMLDivElement>(null);
+  
+  const sectionVisible = useScrollAnimation(sectionRef);
+  const headerVisible = useScrollAnimation(headerRef, { threshold: 0.1 });
+  const pricingCardVisible = useScrollAnimation(pricingCardRef, { threshold: 0.1 });
+
   return (
-    <section className="dagestan-section dagestan-pricing">
+    <section 
+      ref={sectionRef}
+      className={`dagestan-section dagestan-pricing scroll-animate ${sectionVisible ? 'animate-in' : ''}`}
+    >
       <div className="dagestan-section-inner">
-        <div className="dagestan-pricing-header">
+        <div 
+          ref={headerRef}
+          className={`dagestan-pricing-header scroll-animate delay-1 ${headerVisible ? 'animate-in' : ''}`}
+        >
           <h2 className="dagestan-section-title">What is included</h2>
           <h3 className="dagestan-section-subtitle">in the price?</h3>
         </div>
 
-        <div className="dagestan-pricing-card">
+        <div 
+          ref={pricingCardRef}
+          className={`dagestan-pricing-card scroll-animate pricing-card ${pricingCardVisible ? 'animate-in' : ''}`}
+        >
           <div className="dagestan-pricing-inclusions">
             {inclusions.map((item, index) => (
               <div key={index} className="dagestan-pricing-item">

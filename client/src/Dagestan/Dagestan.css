@@ -1048,6 +1048,142 @@
   transform: translateY(-2px);
 }
 
+/* ============ SCROLL ANIMATIONS ============ */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate.delay-1 {
+  transition-delay: 0.1s;
+}
+
+.scroll-animate.delay-2 {
+  transition-delay: 0.2s;
+}
+
+.scroll-animate.delay-3 {
+  transition-delay: 0.3s;
+}
+
+.scroll-animate.delay-4 {
+  transition-delay: 0.4s;
+}
+
+.scroll-animate.delay-5 {
+  transition-delay: 0.5s;
+}
+
+.scroll-animate.hero-title {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
+}
+
+.scroll-animate.hero-title.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate.hero-subtitle {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s;
+}
+
+.scroll-animate.hero-subtitle.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate.timeline-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.timeline-item.animate-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-animate.tour-card {
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.tour-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-animate.carousel {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.carousel.animate-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scroll-animate.faq-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.faq-item.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-animate.testimonial-card {
+  opacity: 0;
+  transform: translateY(30px) rotateX(10deg);
+  transition: all 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.testimonial-card.animate-in {
+  opacity: 1;
+  transform: translateY(0) rotateX(0);
+}
+
+.scroll-animate.pricing-card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scroll-animate.pricing-card.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for grid items */
+.scroll-animate.tour-card:nth-child(1) { transition-delay: 0.1s; }
+.scroll-animate.tour-card:nth-child(2) { transition-delay: 0.2s; }
+.scroll-animate.tour-card:nth-child(3) { transition-delay: 0.3s; }
+.scroll-animate.tour-card:nth-child(4) { transition-delay: 0.4s; }
+
+.scroll-animate.faq-item:nth-child(1) { transition-delay: 0.1s; }
+.scroll-animate.faq-item:nth-child(2) { transition-delay: 0.2s; }
+.scroll-animate.faq-item:nth-child(3) { transition-delay: 0.3s; }
+.scroll-animate.faq-item:nth-child(4) { transition-delay: 0.4s; }
+
+.scroll-animate.testimonial-card:nth-child(1) { transition-delay: 0.1s; }
+.scroll-animate.testimonial-card:nth-child(2) { transition-delay: 0.2s; }
+.scroll-animate.testimonial-card:nth-child(3) { transition-delay: 0.3s; }
+.scroll-animate.testimonial-card:nth-child(4) { transition-delay: 0.4s; }
+
 /* ============ FOOTER ============ */
 .dagestan-footer {
   background: hsl(var(--foreground));
